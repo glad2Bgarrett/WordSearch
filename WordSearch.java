@@ -147,6 +147,7 @@ public class WordSearch
     int column = Integer.parseInt(position[1]);
     boolean found = false;
 
+    //Normal horizontal
     if (column + word.length() <= board.length){
       String[] formedString = Arrays.asList(grid[row]).subList(column, column + word.length()).toArray(new String[0]);
       String simpleString = Build(formedString);
@@ -155,6 +156,7 @@ public class WordSearch
         found = true;
       }
     }
+    //Reverse horizontal
     if (column - word.length() >= 0){
       String[] formedString = Arrays.asList(grid[row]).subList(column - (word.length() - 1), column + 1).toArray(new String[0]);
       String simpleString = Build(formedString);
@@ -163,6 +165,7 @@ public class WordSearch
         found = true;
       }
     }
+    //Normal vertical
     if (row + word.length() <= board.length){
       String[] formedString = GetColumnContents(column, row, row + word.length());
       String simpleString = Build(formedString);
@@ -171,6 +174,7 @@ public class WordSearch
         found = true;
       }
     }
+    //Reverse vertical
    if (row - word.length() >= 0){
      String[] formedString = GetColumnContents(column, row - word.length() + 1, row + 1);
      String simpleString = Build(formedString);
@@ -179,6 +183,7 @@ public class WordSearch
         found = true;
       }
     }
+    //Normal diagonal NW to SE
     if (row + word.length() <= board.length && column + word.length() <= board.length){
       FindDiagonal(column, column + word.length(), row, row + word.length());
       if(diagonalWord.equals(word)){
@@ -187,6 +192,7 @@ public class WordSearch
       }
       diagonalWord = "";
     }
+    //Reverse diagonal SE to NW
     if (row - (word.length() - 1) >= 0 && column - (word.length() - 1) >= 0){
       FindDiagonal(column - (word.length() - 1), column + 1, row - (word.length() - 1), row + 1);
       if(diagonalWord.equals(new StringBuilder(word).reverse().toString())){
@@ -195,6 +201,7 @@ public class WordSearch
       }
       diagonalWord = "";
     }
+    //Diagonal SW to NE
     if (row - (word.length() - 1) >= 0 && column + word.length() <= board.length){
       FindDiagonal(column, column + word.length(), row, row - (word.length() - 1), false);
       if(diagonalWord.equals(word)){
@@ -203,6 +210,7 @@ public class WordSearch
       }
       diagonalWord = "";
     }
+    //Diagonal NE to SW
     if (row + word.length() <= board.length && column - (word.length() - 1) >= 0){
       FindDiagonal(row, row + word.length(), column, column - (word.length() - 1), true);
       if(diagonalWord.equals(word)){
@@ -248,7 +256,7 @@ public class WordSearch
   private void FindDiagonal(int inc, int max, int dec, int low, boolean row)
   {
     if (inc <= max && dec >= low){
-      if(row)
+      if(row) //if incrementing on row
         diagonalWord += grid[inc][dec];
       else
         diagonalWord += grid[dec][inc];
